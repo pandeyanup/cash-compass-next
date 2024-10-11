@@ -5,10 +5,13 @@
 /.pnp
 .pnp.js
 
+
+
 # testing
 /coverage
 
-# database
+# database/prisma 
+/prisma/migrations
 /prisma/db.sqlite
 /prisma/db.sqlite-journal
 db.sqlite
