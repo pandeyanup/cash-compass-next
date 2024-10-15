@@ -55,9 +55,9 @@ model Session {
 }
 
 model User {
-    id            String        @id @default(cuid())
+    id            String         @id @default(cuid())
     name          String?
-    email         String?       @unique
+    email         String?        @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
@@ -70,6 +70,8 @@ model User {
     Transaction   Transaction[]
     Summary       Summary[]
     Report        Report[]
+    achievement   achievement[]
+    subscription  subscription[]
 }
 
 model VerificationToken {
@@ -167,4 +169,28 @@ model Report {
     createdById String
 
     @@index([name])
+}
+
+model achievement {
+    id        Int      @id @default(autoincrement())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    createdBy   User   @relation(fields: [createdById], references: [id])
+    createdById String
+
+    @@index([name])
+}
+
+model subscription {
+    id        Int      @id @default(autoincrement())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    createdBy   User   @relation(fields: [createdById], references: [id])
+    createdById String
+
+    @@index(name)
 }
