@@ -14,7 +14,9 @@ import { createQueryClient } from "./query-client";
  */
 const createContext = cache(() => {
   const heads = new Headers(headers());
+  const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
   heads.set("x-trpc-source", "rsc");
+  heads.set("cache-control", `public, max-age=${ONE_DAY_IN_SECONDS}`);
 
   return createTRPCContext({
     headers: heads,
@@ -26,5 +28,5 @@ const caller = createCaller(createContext);
 
 export const { trpc: api, HydrateClient } = createHydrationHelpers<AppRouter>(
   caller,
-  getQueryClient
+  getQueryClient,
 );
