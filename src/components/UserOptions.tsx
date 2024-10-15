@@ -35,33 +35,45 @@ const UserOptions = async () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Cloud className="mr-2 h-4 w-4" />
-                <Link href="/dashboard">Dashboard</Link>
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard">
+                  <Cloud className="mr-2 h-4 w-4" />
+                  <p>Dashboard</p>
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <Link href="/profile">Profile</Link>
+              <DropdownMenuItem asChild>
+                <Link href="/profile">
+                  <User className="mr-2 h-4 w-4" />
+                  <p>Profile</p>
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <Link href="/setting">Settings</Link>
+              <DropdownMenuItem asChild>
+                <Link href="/settings">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <p>Settings</p>
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Github className="mr-2 h-4 w-4" />
-              <span>GitHub</span>
+            <DropdownMenuItem asChild>
+              <span>
+                <Github className="mr-2 h-4 w-4" />
+                <p>GitHub</p>
+              </span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <LifeBuoy className="mr-2 h-4 w-4" />
-              <span>Support</span>
+            <DropdownMenuItem asChild>
+              <span>
+                <LifeBuoy className="mr-2 h-4 w-4" />
+                <p>Support</p>
+              </span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut className="mr-2 h-4 w-4" />
-              <Link href="/api/auth/signout">Sign out</Link>
+            <DropdownMenuItem asChild>
+              <Link href="/api/auth/signout">
+                <LogOut className="mr-2 h-4 w-4" />
+                <p>Sign out</p>
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
