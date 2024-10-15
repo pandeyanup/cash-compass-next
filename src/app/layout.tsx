@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import Navbar from "~/components/Navbar";
+import Footer from "~/components/Footer";
 
 export const metadata: Metadata = {
   title: "CashCompass",
@@ -22,6 +23,7 @@ export default function RootLayout({
         <TRPCReactProvider>
           <Navbar />
           <main className="m-2">{children}</main>
+          <Footer />
         </TRPCReactProvider>
       </body>
     </html>
