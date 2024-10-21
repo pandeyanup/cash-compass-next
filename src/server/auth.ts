@@ -6,6 +6,8 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import GithubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from "bcryptjs";
 
 import { env } from "~/env";
 import { db } from "~/server/db";
@@ -38,13 +40,19 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
+    session: ({ session, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: user.id,
+        id: token.sub,
       },
     }),
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.sub = user.id;
+      }
+      return token;
+    },
   },
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
@@ -52,7 +60,52 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "text",
+          placeholder: "jsmith@example.com",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials.password) {
+          return null;
+        }
+        const account = await db.account.findFirst({
+          where: {
+            email: credentials.email,
+            provider: "email",
+          },
+          include: { user: true },
+        });
+        if (!account || !account.password) {
+          return null;
+        }
+        const isPasswordValid = await compare(
+          credentials.password,
+          account.password,
+        );
+        if (!isPasswordValid) {
+          return null;
+        }
+        return {
+          id: account.user.id,
+          email: account.user.email,
+          name: account.user.name,
+        };
+      },
+    }),
   ],
+  session: {
+    strategy: "jwt",
+  },
+  pages: {
+    signIn: "/login",
+    newUser: "/register",
+  },
 };
 
 /**

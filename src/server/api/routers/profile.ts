@@ -1,7 +1,11 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const profileRouter = createTRPCRouter({
   getProfile: protectedProcedure.query(async ({ ctx }) => {
@@ -36,4 +40,18 @@ export const profileRouter = createTRPCRouter({
 
       return updatedUser;
     }),
+
+  //TODO: remove this route
+  getAllUsers: publicProcedure.query(async ({ ctx }) => {
+    const users = await ctx.db.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+      },
+    });
+
+    return users;
+  }),
 });
