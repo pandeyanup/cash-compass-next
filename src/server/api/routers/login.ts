@@ -83,6 +83,7 @@ export const loginRouter = createTRPCRouter({
           type: "email",
         },
       });
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       const { password: _, ...accountWithoutPassword } = account;
       return accountWithoutPassword;
     }),

@@ -1,6 +1,5 @@
 "use client";
 
-import { ExitIcon } from "@radix-ui/react-icons";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { Button } from "~/components/ui/button";

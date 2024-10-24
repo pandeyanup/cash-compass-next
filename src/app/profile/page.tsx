@@ -14,6 +14,7 @@ import {
 import { Progress } from "~/components/ui/progress";
 import { Badge } from "~/components/ui/badge";
 import Loading from "~/components/Loading";
+import Image from "next/image";
 
 const ProfilePage = () => {
   const router = useRouter();
@@ -117,10 +118,12 @@ const ProfilePage = () => {
             </div>
           )}
           {profile.image && (
-            <img
+            <Image
               src={profile.image}
               alt="Profile"
-              className="mt-4 h-20 w-20 rounded-full"
+              width={80}
+              height={80}
+              className="mt-4 rounded-full"
             />
           )}
         </CardContent>
@@ -132,7 +135,7 @@ const ProfilePage = () => {
           <h2 className="text-xl font-semibold">Subscription</h2>
         </CardHeader>
         <CardContent>
-          <p>Current Plan: {subscriptionStatus?.name || "Free"}</p>
+          <p>Current Plan: {subscriptionStatus?.name ?? "Free"}</p>
           {subscriptionStatus?.name !== "Premium" && (
             <Button onClick={() => router.push("/upgrade")} className="mt-2">
               Upgrade to Premium
@@ -155,7 +158,7 @@ const ProfilePage = () => {
         </CardContent>
         <CardFooter>
           <Progress
-            value={achievements?.length || 0}
+            value={achievements?.length ?? 0}
             max={10}
             className="w-full"
           />
