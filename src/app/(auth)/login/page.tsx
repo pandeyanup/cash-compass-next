@@ -26,10 +26,11 @@ const LoginForm = () => {
     });
 
     if (result?.error) {
-      setError(result.error);
+      setError("Invalid email or password");
       setIsLoading(false);
     } else {
       router.push("/profile");
+      router.refresh();
     }
   };
 
