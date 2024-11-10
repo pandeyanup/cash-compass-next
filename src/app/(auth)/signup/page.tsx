@@ -15,30 +15,31 @@ const SignupForm = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const createUser = api.login.createUserAccount.useMutation({
-    onSuccess: async () => {
-      const result = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
-      });
-      if (result?.error) {
-        setError(result.error);
-      } else {
-        router.push("/profile");
-      }
-    },
-    onError: (error) => {
-      setError(error.message);
-    },
-  });
+  // const createUser = api.login.createUserAccount.useMutation({
+  //   onSuccess: async () => {
+  //     const result = await signIn("credentials", {
+  //       redirect: false,
+  //       email,
+  //       password,
+  //     });
+  //     console.log("AUTH RESULT", result);
+  //     if (result?.error) {
+  //       setError(result.error);
+  //     } else {
+  //       router.push("/profile");
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     setError(error.message);
+  //   },
+  // });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
 
-    createUser.mutate({ email, password });
+    // createUser.mutate({ email, password });
   };
 
   return (

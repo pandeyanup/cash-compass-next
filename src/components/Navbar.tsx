@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { getServerAuthSession } from "~/server/auth";
 import UserOptions from "./UserOptions";
+import { auth } from "~/server/auth";
 
 const Navbar = async () => {
-  const session = await getServerAuthSession();
+  const session = await auth();
   return (
     <nav className="sticky top-0 z-10 border-b border-gray-200 bg-white bg-opacity-30 backdrop-blur-lg backdrop-filter">
       <div className="mx-2 flex h-16 items-center justify-between">

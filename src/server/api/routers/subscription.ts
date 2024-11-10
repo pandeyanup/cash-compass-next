@@ -10,8 +10,6 @@ export const subscriptionRouter = createTRPCRouter({
       },
     });
 
-    if (!subscription) throw new TRPCError({ code: "NOT_FOUND" });
-
-    return subscription;
+    return subscription || null;
   }),
 });

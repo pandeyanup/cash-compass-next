@@ -10,12 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { getServerAuthSession } from "~/server/auth";
+import { auth } from "~/server/auth";
 import { HydrateClient } from "~/trpc/server";
 import SignOutButton from "./SignOutButton";
 
 const UserOptions = async () => {
-  const session = await getServerAuthSession();
+  const session = await auth();
 
   if (!session) {
     return null;
