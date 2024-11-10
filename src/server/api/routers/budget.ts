@@ -7,24 +7,40 @@ export const budgetRouter = createTRPCRouter({
   create: protectedProcedure
     .input(z.object({ name: z.string().min(1), amount: z.number().min(0) }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.budget.create({
-        data: {
-          name: input.name,
-          amount: input.amount,
-          createdBy: { connect: { id: ctx.session.user.id } },
-        },
-      });
+      try {
+        return await ctx.db.budget.create({
+          data: {
+            name: input.name,
+            amount: input.amount,
+            createdBy: { connect: { id: ctx.session.user.id } },
+          },
+        });
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to create budget",
+        });
+      }
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
-    const budgets = await ctx.db.budget.findMany({
-      where: {
-        createdBy: { id: ctx.session.user.id },
-      },
-    });
+    try {
+      const budgets = await ctx.db.budget.findMany({
+        where: {
+          createdBy: { id: ctx.session.user.id },
+        },
+      });
 
-    if (!budgets) throw new TRPCError({ code: "NOT_FOUND" });
+      if (!budgets || budgets.length === 0) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "No budgets found" });
+      }
 
-    return budgets;
+      return budgets;
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to retrieve budgets",
+      });
+    }
   }),
 });
